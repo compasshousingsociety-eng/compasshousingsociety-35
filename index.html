@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Compass · Real Estate Services</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- globalstyles.css (placeholder) -->
+    <link rel="stylesheet" href="globalstyles.css" />
+
+    <style>
+        /* ---------- ROOT (only 3 colors + light/dark) ---------- */
+        :root {
+            --primary: #603F83;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #ffffff;
+            --text-light: #000000;
+            --bg-dark: #000000;
+            --text-dark: #ffffff;
+            --bg-main: var(--bg-light);
+            --text-main: var(--text-light);
+            --re-primary: var(--primary);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-light: #000000;
+            --bg-dark: #000000;
+            --text-light: #ffffff;
+            --text-dark: #ffffff;
+            --bg-main: #000000;
+            --text-main: #ffffff;
+        }
+
+        /* ---------- GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-top: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.5;
+        }
+
+        /* background logo (transparent) */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("images/transparent-logo-1.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 600px auto;
+            opacity: 0.10;
+            pointer-events: none;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ---------- FIXED HIERARCHY FONT SIZES ---------- */
+        h1 {
+            font-size: 46px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        h5 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        h6 {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        p,
+        span,
+        li,
+        .fs-18,
+        .nav-link,
+        .btn,
+        input,
+        label,
+        .card-text,
+        .footer-text {
+            font-size: 18px !important;
+            line-height: normal;
+        }
+
+        /* ---------- STICKY HEADER ---------- */
+        .fixed-top {
+            background-color: var(--bg-main) !important;
+            border-bottom: 1px solid rgba(96, 63, 131, 0.10);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.02);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: var(--text-main) !important;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: var(--text-main) !important;
+            font-size: 18px !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 60px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            background-color: var(--primary) !important;
+            color: var(--white) !important;
+            box-shadow: 0 6px 18px rgba(96, 63, 131, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--text-main);
+            border-radius: 60px;
+            padding: 6px 18px;
+            font-size: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: scale(1.04);
+        }
+
+        /* ---------- BUTTONS (beautiful animations) ---------- */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 60px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 14px rgba(96, 63, 131, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 60px;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.35);
+            color: var(--primary);
+            background: transparent;
+            border-color: var(--primary);
+        }
+
+        .btn-primary-custom:hover::after {
+            opacity: 0.08;
+        }
+
+        .btn-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        .btn-outline-primary-custom {
+            border: 2px solid var(--primary);
+            color: var(--text-main);
+            background: transparent;
+            border-radius: 60px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-outline-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 60px;
+        }
+
+        .btn-outline-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.25);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .btn-outline-primary-custom:hover::after {
+            opacity: 0.12;
+        }
+
+        .btn-outline-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        /* cards */
+        .card-service {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.10);
+            border-radius: 28px;
+            padding: 30px 24px;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: var(--text-main);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            backdrop-filter: blur(2px);
+            height: 100%;
+        }
+
+        .card-service:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 44px rgba(96, 63, 131, 0.08);
+            transform: translateY(-8px);
+        }
+
+        .card-service i {
+            color: var(--primary);
+            font-size: 42px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-service:hover i {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        /* gallery card with real-estate images */
+        .gallery-card {
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(96, 63, 131, 0.08);
+            background: var(--bg-main);
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 16px 40px rgba(96, 63, 131, 0.10);
+            transform: translateY(-6px);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(96, 63, 131, 0.04);
+            color: var(--primary);
+            font-size: 48px;
+            gap: 8px;
+        }
+
+        .gallery-placeholder span {
+            font-size: 16px !important;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+
+        .section-gap {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-padding {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+     
+
+        /* responsive */
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 38px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 22px;
+            }
+
+            .section-padding {
+                padding-top: 28px;
+                padding-bottom: 28px;
+            }
+
+            .section-gap {
+                margin-top: 28px;
+                margin-bottom: 28px;
+            }
+
+            .gallery-card {
+                height: 160px;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 992px) {
+            .gallery-card {
+                height: 200px;
+            }
+        }
+
+        .text-primary-custom {
+            color: var(--primary) !important;
+        }
+
+        .navbar-toggler-custom {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 32px;
+            padding: 0 8px;
+            transition: 0.25s ease;
+        }
+
+        .navbar-toggler-custom:hover,
+        .navbar-toggler-custom:focus {
+            color: var(--primary);
+            transform: rotate(4deg);
+        }
+
+        .navbar-toggler-custom.active {
+            color: var(--primary);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(96, 63, 131, 0.07);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-size: 18px;
+            border: 1px solid rgba(96, 63, 131, 0.08);
+        }
+
+        .stat-item {
+            transition: 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-item .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .service-icon-wrap {
+            width: 70px;
+            height: 70px;
+            background: rgba(96, 63, 131, 0.06);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            transition: 0.3s ease;
+        }
+
+        .card-service:hover .service-icon-wrap {
+            background: rgba(96, 63, 131, 0.12);
+            transform: scale(1.02);
+        }
+
+        /* testimonial / client section */
+        .testimonial-card {
+            background: var(--bg-main);
+            border: 1px solid gray;
+            border-radius: 28px;
+            padding: 32px 28px;
+            transition: 0.3s ease;
+            height: 100%;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.06);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-card i {
+            color: var(--primary);
+            font-size: 32px;
+            opacity: 0.3;
+        }
+
+        .testimonial-card .client-name {
+            font-weight: 700;
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ HEADER (sticky) ============ -->
+    <div id="site-header" class="fixed-top">
+        <nav class="navbar navbar-expand-lg py-2">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-compass-fill"></i> Compass<span style="color:var(--primary);">.</span>
+                </a>
+                <button class="navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Testimonials</a></li>
+                        <li class="nav-item">
+                            <button class="theme-toggle ms-2" id="themeToggle" aria-label="Toggle theme">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container section-padding">
+
+        <!-- HERO -->
+        <section class="row align-items-center section-gap">
+            <div class="col-lg-6">
+                <span class="hero-badge mb-3 d-inline-block"><i class="bi bi-building me-1"></i> premium real
+                    estate</span>
+                <h1 class="fw-bold mb-3" style="color:var(--text-main);">
+                    Unlock exceptional properties &amp; services
+                </h1>
+                <p style="font-size:18px; opacity:0.85; max-width:520px;">
+                    We combine market intelligence with white‑glove service to help you find, finance, and manage your
+                    dream property.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="Aboutus.html">
+                        <button class="btn-primary-custom"><i class="bi bi-search me-2"></i>Explore properties</button>
+                    </a>
+                    <!-- <button class="btn-outline-primary-custom"><i class="bi bi-play-circle me-2"></i>View tour</button> -->
+                </div>
+                <div class="mt-4 d-flex gap-4 flex-wrap">
+                    <div class="stat-item"><span class="number">200+</span> <span style="opacity:0.7;">listings</span>
+                    </div>
+                    <div class="stat-item"><span class="number">98%</span> <span style="opacity:0.7;">client
+                            satisfaction</span></div>
+                    <div class="stat-item"><span class="number">24/7</span> <span style="opacity:0.7;">support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <div class="card-service p-4" style="background: var(--bg-main);">
+                    <div class="service-icon-wrap">
+                        <i class="bi bi-house-heart" style="font-size:34px; color:var(--primary);"></i>
+                    </div>
+                    <h3 class="mt-2">Full‑service real estate</h3>
+                    <p>From valuation and staging to closing and property management — we handle every detail.</p>
+                    <span class="badge"
+                        style="background:var(--primary); color:var(--white); padding:8px 20px; border-radius:60px;">Trusted
+                        since 2012</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section class="section-gap">
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                <h2>Our real estate services</h2>
+                <a href="#" class="text-primary-custom" style="font-size:18px; text-decoration:none; transition:0.25s;"
+                    onmouseover="this.style.textDecoration='underline'"
+                    onmouseout="this.style.textDecoration='none'">All services <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-service">
+                        <div class="service-icon-wrap"><i class="bi bi-binoculars"></i></div>
+                        <h4>Property sourcing</h4>
+                        <p>Off‑market and exclusive listings tailored to your criteria.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-service">
+                        <div class="service-icon-wrap"><i class="bi bi-calculator"></i></div>
+                        <h4>Valuation &amp; advisory</h4>
+                        <p>Data‑backed appraisals and investment‑grade analysis.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-service">
+                        <div class="service-icon-wrap"><i class="bi bi-file-check"></i></div>
+                        <h4>Legal &amp; closing</h4>
+                        <p>Seamless transaction management with full compliance.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-service">
+                        <div class="service-icon-wrap"><i class="bi bi-tools"></i></div>
+                        <h4>Property management</h4>
+                        <p>Maintenance, tenant relations, and performance tracking.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-service">
+                        <div class="service-icon-wrap"><i class="bi bi-bank"></i></div>
+                        <h4>Financing &amp; mortgages</h4>
+                        <p>Access to preferred lenders and competitive rates.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-service">
+                        <div class="service-icon-wrap"><i class="bi bi-arrow-up-right-square"></i></div>
+                        <h4>Staging &amp; marketing</h4>
+                        <p>Professional photography, virtual tours, and targeted campaigns.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY (real estate images) -->
+        <section class="section-gap">
+            <h2 class="mb-4">Property gallery</h2>
+            <div class="row g-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-card">
+                        <div class="gallery-placeholder">
+                            <img src="https://media.istockphoto.com/id/2155879454/photo/this-is-an-exterior-photo-of-a-home-for-sale-in-beverly-hills-ca.jpg?s=612x612&w=0&k=20&c=uSKacMQvmaYX5Pf5Br7pUfErYQbNt_UWXRTjfwrdSDQ="
+                                alt="">
+                            <!-- <span>Modern Villa</span> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-card">
+                        <div class="gallery-placeholder">
+                            <img src="https://cdn.pixabay.com/photo/2016/11/29/03/53/house-1867187_640.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-card">
+                        <div class="gallery-placeholder">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOvr7s6yL-tYEtBKs-kHrlk5mkz0yurSM08fJhjPbFDO4BpHr_6U1pkKI&s=10"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-card">
+                        <div class="gallery-placeholder">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh6SKPvPR690FvEFHm2KaI-gxudH9EckpIRMtelKd5UOttEfZEVn7fXgPT&s=10"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-card">
+                        <div class="gallery-placeholder">
+                            <img src="https://www.shutterstock.com/image-photo/real-estate-exterior-front-house-260nw-2355056831.jpg"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-card">
+                        <div class="gallery-placeholder">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4kA5e144NX1PC_ukkqQrhjRzxZ2qF6Ddgkx6zcSVCrmTpdwkLOgxCrryY&s=10"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLIENT TESTIMONIALS (replaces "Let's find your next property") -->
+        <section class="section-gap">
+            <h2 class="mb-4">What our clients say</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <i class="bi bi-quote"></i>
+                        <p class="mt-2" style="opacity:0.85;">“Compass helped us find our dream home in just two weeks.
+                            Their market knowledge is unparalleled.”</p>
+                        <div class="mt-3">
+                            <span class="client-name">— Sarah &amp; James</span>
+                            <span style="opacity:0.5; display:block; font-size:16px !important;">Brooklyn, NY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <i class="bi bi-quote"></i>
+                        <p class="mt-2" style="opacity:0.85;">“The staging and marketing campaign sold our property
+                            above asking price. Absolutely stellar team.”</p>
+                        <div class="mt-3">
+                            <span class="client-name">— Michael R.</span>
+                            <span style="opacity:0.5; display:block; font-size:16px !important;">Manhattan, NY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <i class="bi bi-quote"></i>
+                        <p class="mt-2" style="opacity:0.85;">“From financing to closing, every step was smooth. We felt
+                            supported and informed throughout.”</p>
+                        <div class="mt-3">
+                            <span class="client-name">— Elena &amp; David</span>
+                            <span style="opacity:0.5; display:block; font-size:16px !important;">Austin, TX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER (preserved) ============ -->
+    <div id="side-footer"></div>
+
+    <!-- scripts -->
+    <script src="footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="header.js"></script>
+
+    <!-- ====== custom JS ====== -->
+    <script>
+        (function () {
+            // Theme toggle
+            const toggleBtn = document.getElementById('themeToggle');
+            const icon = document.getElementById('themeIcon');
+            const html = document.documentElement;
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    html.setAttribute('data-theme', 'dark');
+                    icon.className = 'bi bi-sun-fill';
+                } else {
+                    html.removeAttribute('data-theme');
+                    icon.className = 'bi bi-moon-fill';
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            const saved = localStorage.getItem('theme') || 'light';
+            setTheme(saved);
+
+            toggleBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const current = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                setTheme(current);
+            });
+
+            // Navbar toggler active
+            const toggler = document.querySelector('.navbar-toggler-custom');
+            const collapse = document.getElementById('navbarContent');
+            if (toggler && collapse) {
+                collapse.addEventListener('show.bs.collapse', function () {
+                    toggler.classList.add('active');
+                    toggler.setAttribute('aria-expanded', 'true');
+                });
+                collapse.addEventListener('hide.bs.collapse', function () {
+                    toggler.classList.remove('active');
+                    toggler.setAttribute('aria-expanded', 'false');
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>

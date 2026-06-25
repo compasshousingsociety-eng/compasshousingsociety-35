@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+  <title>Compass · Coming Soon</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- globalstyles.css (placeholder) -->
+  <link rel="stylesheet" href="globalstyles.css" />
+
+  <style>
+    /* ---------- ROOT (only 3 colors + light/dark) ---------- */
+    :root {
+      --primary: #603F83;
+      --white: #ffffff;
+      --black: #000000;
+      --bg-light: #ffffff;
+      --text-light: #000000;
+      --bg-dark: #000000;
+      --text-dark: #ffffff;
+      --bg-main: var(--bg-light);
+      --text-main: var(--text-light);
+    }
+
+    :root[data-theme="dark"] {
+      --bg-light: #000000;
+      --bg-dark: #000000;
+      --text-light: #ffffff;
+      --text-dark: #ffffff;
+      --bg-main: #000000;
+      --text-main: #ffffff;
+    }
+
+    /* ---------- GLOBAL ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding-top: 80px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* background logo (transparent) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("images/transparent-logo-1.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 600px auto;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: -1;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ---------- FIXED HIERARCHY FONT SIZES ---------- */
+    h1 { font-size: 46px; font-weight: 700; letter-spacing: -0.02em; }
+    h2 { font-size: 34px; font-weight: 700; }
+    h3 { font-size: 24px; font-weight: 700; }
+    h4 { font-size: 23px; font-weight: 700; }
+    h5 { font-size: 22px; font-weight: 700; }
+    h6 { font-size: 21px; font-weight: 700; }
+    p, span, li, .fs-18, .nav-link, .btn, input, label, .card-text {
+      font-size: 18px !important;
+      line-height: normal;
+    }
+
+    /* ---------- STICKY HEADER ---------- */
+    .fixed-top {
+      background-color: var(--bg-main) !important;
+      border-bottom: 1px solid rgba(96, 63, 131, 0.10);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.02);
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar-brand {
+      color: var(--text-main) !important;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .navbar-brand i { color: var(--primary); margin-right: 8px; }
+
+    .nav-link {
+      color: var(--text-main) !important;
+      font-size: 18px !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 60px;
+      transition: all 0.25s ease;
+    }
+    .nav-link:hover, .nav-link:focus, .nav-link.active {
+      background-color: var(--primary) !important;
+      color: var(--white) !important;
+      box-shadow: 0 6px 18px rgba(96, 63, 131, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--text-main);
+      border-radius: 60px;
+      padding: 6px 18px;
+      font-size: 18px;
+      transition: all 0.25s ease;
+    }
+    .theme-toggle:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+      transform: scale(1.04);
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn-primary-custom {
+      background: var(--primary);
+      color: var(--white);
+      border: 2px solid var(--primary);
+      border-radius: 60px;
+      padding: 12px 34px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 4px 14px rgba(96, 63, 131, 0.2);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none !important;
+      display: inline-block;
+    }
+    .btn-primary-custom::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 60px;
+    }
+    .btn-primary-custom:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(96, 63, 131, 0.35);
+      color: var(--primary);
+      background: transparent;
+      border-color: var(--primary);
+      text-decoration: none !important;
+    }
+    .btn-primary-custom:hover::after { opacity: 0.08; }
+    .btn-primary-custom:active { transform: scale(0.96); }
+
+    .btn-outline-primary-custom {
+      border: 2px solid var(--primary);
+      color: var(--text-main);
+      background: transparent;
+      border-radius: 60px;
+      padding: 12px 34px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none !important;
+      display: inline-block;
+    }
+    .btn-outline-primary-custom::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 60px;
+    }
+    .btn-outline-primary-custom:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(96, 63, 131, 0.25);
+      color: var(--white);
+      border-color: var(--primary);
+      text-decoration: none !important;
+    }
+    .btn-outline-primary-custom:hover::after { opacity: 0.12; }
+    .btn-outline-primary-custom:active { transform: scale(0.96); }
+
+    a { text-decoration: none !important; }
+
+    /* ---------- COMING SOON SPECIFIC STYLES ---------- */
+    .section-gap { margin-top: 40px; margin-bottom: 40px; }
+    .section-padding { padding-top: 40px; padding-bottom: 40px; }
+
+  
+
+    @media (max-width: 576px) {
+      h1 { font-size: 38px; }
+      h2 { font-size: 28px; }
+      h3 { font-size: 22px; }
+      .section-padding { padding-top: 28px; padding-bottom: 28px; }
+      .section-gap { margin-top: 28px; margin-bottom: 28px; }
+    }
+
+    .text-primary-custom { color: var(--primary) !important; }
+    .navbar-toggler-custom {
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 32px;
+      padding: 0 8px;
+      transition: 0.25s ease;
+    }
+    .navbar-toggler-custom:hover,
+    .navbar-toggler-custom:focus {
+      color: var(--primary);
+      transform: rotate(4deg);
+    }
+    .navbar-toggler-custom.active { color: var(--primary); }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(96, 63, 131, 0.07);
+      color: var(--primary);
+      padding: 6px 20px;
+      border-radius: 60px;
+      font-size: 18px;
+      border: 1px solid rgba(96,63,131,0.08);
+    }
+
+    /* Countdown Timer */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .countdown-item {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.08);
+      border-radius: 20px;
+      padding: 20px 30px;
+      min-width: 100px;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+    .countdown-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(96, 63, 131, 0.06);
+    }
+    .countdown-item .number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+      line-height: 1.2;
+    }
+    .countdown-item .label {
+      opacity: 0.6;
+      font-size: 16px !important;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-main);
+    }
+
+    /* Email Signup */
+    .signup-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .signup-container .input-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .signup-container .input-group input {
+      flex: 1;
+      min-width: 200px;
+    }
+    .signup-container .input-group .btn {
+      white-space: nowrap;
+    }
+
+    .search-input {
+      background: var(--bg-main);
+      border: 1.5px solid rgba(96, 63, 131, 0.12);
+      border-radius: 60px;
+      padding: 12px 22px;
+      font-size: 18px !important;
+      color: var(--text-main);
+      transition: 0.3s ease;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(96, 63, 131, 0.08);
+    }
+    .search-input::placeholder { 
+      opacity: 0.5;
+      color: var(--text-main);
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .social-links a {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(96, 63, 131, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      font-size: 22px;
+      transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(96, 63, 131, 0.2);
+    }
+
+    .success-message {
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .error-message {
+      color: #dc3545;
+      margin-top: 8px;
+    }
+
+    /* Coming soon image */
+    .coming-image {
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(96, 63, 131, 0.08);
+      transition: 0.3s ease;
+    }
+    .coming-image:hover {
+      border-color: var(--primary);
+      box-shadow: 0 12px 32px rgba(96, 63, 131, 0.06);
+    }
+    .coming-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .coming-image:hover img { transform: scale(1.02); }
+
+    /* Social link wrapper */
+    .social-link-wrapper {
+      position: relative;
+    }
+    .social-link-wrapper .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: var(--white);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px !important;
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+    .social-link-wrapper:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Feature cards - dark mode fix */
+    .feature-card {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.06);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: 0.3s ease;
+      height: 100%;
+    }
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(96, 63, 131, 0.06);
+    }
+    .feature-card .feature-icon {
+      font-size: 40px;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .feature-card h5 {
+      color: var(--text-main);
+    }
+    .feature-card p {
+      opacity: 0.7;
+      color: var(--text-main);
+    }
+
+    /* Social section dark mode fix */
+    .social-section {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.06);
+      border-radius: 28px;
+      padding: 48px 32px;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+    .social-section:hover {
+      border-color: rgba(96, 63, 131, 0.15);
+    }
+    .social-section h3 {
+      color: var(--text-main);
+    }
+    .social-section p {
+      opacity: 0.8;
+      color: var(--text-main);
+    }
+    .social-section .email-link {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .social-section .email-link:hover {
+      text-decoration: underline !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HEADER (sticky) ============ -->
+  <div id="site-header" class="fixed-top">
+    <nav class="navbar navbar-expand-lg py-2">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <i class="bi bi-compass-fill"></i> Compass<span style="color:var(--primary);">.</span>
+        </a>
+        <button class="navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#">Coming Soon</a></li>
+            <li class="nav-item">
+              <button class="theme-toggle ms-2" id="themeToggle" aria-label="Toggle theme">
+                <i class="bi bi-moon-fill" id="themeIcon"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="container section-padding" style="flex:1;">
+
+    <!-- HERO -->
+    <section class="row align-items-center section-gap">
+      <div class="col-lg-6">
+        <span class="hero-badge mb-3 d-inline-block"><i class="bi bi-clock me-1"></i> coming soon</span>
+        <h1 class="fw-bold mb-3" style="color:var(--text-main);">
+          Something excitingis on the way
+        </h1>
+        <p style="font-size:18px; opacity:0.85; max-width:520px; color:var(--text-main);">
+          We're preparing to launch our new real estate platform. Stay tuned for innovative features and exclusive listings.
+        </p>
+        <div class="mt-4">
+          <p style="font-weight:600; opacity:0.7; color:var(--text-main);">We're launching in:</p>
+          <!-- Countdown Timer -->
+          <div class="countdown-container">
+            <div class="countdown-item">
+              <span class="number" id="days">00</span>
+              <span class="label">Days</span>
+            </div>
+            <div class="countdown-item">
+              <span class="number" id="hours">00</span>
+              <span class="label">Hours</span>
+            </div>
+            <div class="countdown-item">
+              <span class="number" id="minutes">00</span>
+              <span class="label">Minutes</span>
+            </div>
+            <div class="countdown-item">
+              <span class="number" id="seconds">00</span>
+              <span class="label">Seconds</span>
+            </div>
+          </div>
+        </div>
+        <!-- Email Signup -->
+        <div class="signup-container mt-4">
+          <p style="opacity:0.6; font-size:16px !important; color:var(--text-main);">Be the first to know when we launch:</p>
+          <div class="input-group">
+            <input type="email" class="search-input" id="emailInput" placeholder="Enter your email" style="flex:1;" />
+            <button class="btn-primary-custom" id="notifyBtn">Notify Me</button>
+          </div>
+          <div id="message" style="margin-top:8px;"></div>
+        </div>
+      </div>
+      <div class="col-lg-6 mt-4 mt-lg-0">
+        <div class="coming-image">
+          <img src="https://media.istockphoto.com/id/2154752387/photo/real-estate-concept-business-home-insurance-and-real-estate-protection-real-estate-investment.jpg?s=612x612&w=0&k=20&c=r6Tmn31ZHHr-8ZuWfZaYIYdqM9nD4dMc6NfDXxwsZeo=" alt="Coming Soon - Real Estate" />
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT'S COMING SECTION -->
+    <section class="section-gap">
+      <h2 class="mb-4 text-center" style="color:var(--text-main);">What's coming</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-house-heart"></i>
+            </div>
+            <h5>Exclusive Listings</h5>
+            <p>Access to premium properties before they hit the public market.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <h5>Market Insights</h5>
+            <p>Real-time analytics and data-driven market intelligence.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-eye"></i>
+            </div>
+            <h5>Virtual Tours</h5>
+            <p>Immersive 3D property tours from the comfort of your home.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL & CONTACT with working links -->
+    <section class="section-gap">
+      <div class="social-section">
+        <h3>Stay connected</h3>
+        <p style="max-width:500px; margin:0 auto;">Follow us on social media for updates and behind-the-scenes content.</p>
+        <div class="social-links mt-4">
+          <div class="social-link-wrapper">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <span class="tooltip-text">Facebook</span>
+          </div>
+          <div class="social-link-wrapper">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+            <span class="tooltip-text">Twitter</span>
+          </div>
+          <div class="social-link-wrapper">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <span class="tooltip-text">Instagram</span>
+          </div>
+          <div class="social-link-wrapper">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <span class="tooltip-text">LinkedIn</span>
+          </div>
+          <div class="social-link-wrapper">
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <i class="bi bi-youtube"></i>
+            </a>
+            <span class="tooltip-text">YouTube</span>
+          </div>
+          <div class="social-link-wrapper">
+            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+              <i class="bi bi-pinterest"></i>
+            </a>
+            <span class="tooltip-text">Pinterest</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <span style="opacity:0.5; color:var(--text-main);">Have questions? </span>
+          <a href="mailto:hello@compass.realestate" class="email-link">hello@compass.realestate</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER (preserved - using side-footer) ============ -->
+  <div id="side-footer"></div>
+
+  <!-- scripts -->
+  <script src="footer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="header.js"></script>
+
+  <!-- ====== custom JS ====== -->
+  <script>
+    (function() {
+      // Theme toggle
+      const toggleBtn = document.getElementById('themeToggle');
+      const icon = document.getElementById('themeIcon');
+      const html = document.documentElement;
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+          icon.className = 'bi bi-sun-fill';
+        } else {
+          html.removeAttribute('data-theme');
+          icon.className = 'bi bi-moon-fill';
+        }
+        localStorage.setItem('theme', theme);
+      }
+
+      const saved = localStorage.getItem('theme') || 'light';
+      setTheme(saved);
+
+      toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const current = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        setTheme(current);
+      });
+
+      // Navbar toggler active
+      const toggler = document.querySelector('.navbar-toggler-custom');
+      const collapse = document.getElementById('navbarContent');
+      if (toggler && collapse) {
+        collapse.addEventListener('show.bs.collapse', function() {
+          toggler.classList.add('active');
+          toggler.setAttribute('aria-expanded', 'true');
+        });
+        collapse.addEventListener('hide.bs.collapse', function() {
+          toggler.classList.remove('active');
+          toggler.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      // ---------- COUNTDOWN TIMER ----------
+      // Set the launch date (30 days from now for demo)
+      const launchDate = new Date();
+      launchDate.setDate(launchDate.getDate() + 30);
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = launchDate.getTime() - now;
+
+        if (distance < 0) {
+          document.getElementById('days').textContent = '00';
+          document.getElementById('hours').textContent = '00';
+          document.getElementById('minutes').textContent = '00';
+          document.getElementById('seconds').textContent = '00';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // ---------- EMAIL SIGNUP ----------
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z-]{2,}\.(com|in|org|net)$/i;
+      const emailInput = document.getElementById('emailInput');
+      const notifyBtn = document.getElementById('notifyBtn');
+      const message = document.getElementById('message');
+
+      function showMessage(text, isSuccess) {
+        message.textContent = text;
+        message.className = isSuccess ? 'success-message' : 'error-message';
+        if (isSuccess) {
+          setTimeout(() => {
+            message.textContent = '';
+          }, 4000);
+        }
+      }
+
+      notifyBtn.addEventListener('click', function() {
+        const email = emailInput.value.trim();
+        if (!email) {
+          showMessage('Please enter your email address.', false);
+          return;
+        }
+        if (!emailPattern.test(email)) {
+          showMessage('Please enter a valid email address (e.g., name@domain.com).', false);
+          return;
+        }
+        showMessage('✓ You\'re on the list! We\'ll notify you at launch.', true);
+        emailInput.value = '';
+      });
+
+      emailInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          notifyBtn.click();
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>

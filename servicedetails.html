@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Compass · Service Details</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- globalstyles.css (placeholder) -->
+    <link rel="stylesheet" href="globalstyles.css" />
+
+    <style>
+        /* ---------- ROOT (only 3 colors + light/dark) ---------- */
+        :root {
+            --primary: #603F83;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #ffffff;
+            --text-light: #000000;
+            --bg-dark: #000000;
+            --text-dark: #ffffff;
+            --bg-main: var(--bg-light);
+            --text-main: var(--text-light);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-light: #000000;
+            --bg-dark: #000000;
+            --text-light: #ffffff;
+            --text-dark: #ffffff;
+            --bg-main: #000000;
+            --text-main: #ffffff;
+        }
+
+        /* ---------- GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-top: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.5;
+        }
+
+        /* background logo (transparent) */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("images/transparent-logo-1.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 600px auto;
+            opacity: 0.10;
+            pointer-events: none;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ---------- FIXED HIERARCHY FONT SIZES ---------- */
+        h1 {
+            font-size: 46px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        h5 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        h6 {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        p,
+        span,
+        li,
+        .fs-18,
+        .nav-link,
+        .btn,
+        input,
+        label,
+        .card-text {
+            font-size: 18px !important;
+            line-height: normal;
+        }
+
+        /* ---------- STICKY HEADER ---------- */
+        .fixed-top {
+            background-color: var(--bg-main) !important;
+            border-bottom: 1px solid rgba(96, 63, 131, 0.10);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.02);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: var(--text-main) !important;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: var(--text-main) !important;
+            font-size: 18px !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 60px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            background-color: var(--primary) !important;
+            color: var(--white) !important;
+            box-shadow: 0 6px 18px rgba(96, 63, 131, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--text-main);
+            border-radius: 60px;
+            padding: 6px 18px;
+            font-size: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: scale(1.04);
+        }
+
+        /* ---------- BUTTONS (same style for all pricing) ---------- */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 60px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 14px rgba(96, 63, 131, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+
+        .btn-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 60px;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.35);
+            color: var(--primary);
+            background: transparent;
+            border-color: var(--primary);
+            text-decoration: none !important;
+        }
+
+        .btn-primary-custom:hover::after {
+            opacity: 0.08;
+        }
+
+        .btn-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        .btn-outline-primary-custom {
+            border: 2px solid var(--primary);
+            color: var(--text-main);
+            background: transparent;
+            border-radius: 60px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+
+        .btn-outline-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 60px;
+        }
+
+        .btn-outline-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.25);
+            color: var(--white);
+            border-color: var(--primary);
+            text-decoration: none !important;
+        }
+
+        .btn-outline-primary-custom:hover::after {
+            opacity: 0.12;
+        }
+
+        .btn-outline-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        /* All pricing buttons use btn-primary-custom */
+        .pricing-card .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        /* ---------- SERVICE DETAILS SPECIFIC STYLES ---------- */
+        .section-gap {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-padding {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 38px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 22px;
+            }
+
+            .section-padding {
+                padding-top: 28px;
+                padding-bottom: 28px;
+            }
+
+            .section-gap {
+                margin-top: 28px;
+                margin-bottom: 28px;
+            }
+        }
+
+        .text-primary-custom {
+            color: var(--primary) !important;
+        }
+
+        .navbar-toggler-custom {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 32px;
+            padding: 0 8px;
+            transition: 0.25s ease;
+        }
+
+        .navbar-toggler-custom:hover,
+        .navbar-toggler-custom:focus {
+            color: var(--primary);
+            transform: rotate(4deg);
+        }
+
+        .navbar-toggler-custom.active {
+            color: var(--primary);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(96, 63, 131, 0.07);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-size: 18px;
+            border: 1px solid rgba(96, 63, 131, 0.08);
+        }
+
+        /* Detail image - different style */
+        .detail-image {
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(96, 63, 131, 0.08);
+            transition: 0.3s ease;
+            height: 320px;
+        }
+
+        .detail-image:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.06);
+        }
+
+        .detail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .detail-image:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(96, 63, 131, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.25s ease;
+        }
+
+        .feature-list li:hover {
+            padding-left: 8px;
+        }
+
+        .feature-list li i {
+            color: var(--primary);
+            font-size: 22px;
+            min-width: 28px;
+        }
+
+        /* Pricing Table */
+        .pricing-card {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.08);
+            border-radius: 28px;
+            padding: 32px 28px;
+            text-align: center;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 16px 40px rgba(96, 63, 131, 0.08);
+            transform: translateY(-6px);
+        }
+
+        .pricing-card .price {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .pricing-card .price span {
+            font-size: 20px !important;
+            font-weight: 400;
+            opacity: 0.6;
+        }
+
+        .pricing-card .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .pricing-card .pricing-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(96, 63, 131, 0.04);
+        }
+
+        .pricing-card .pricing-features li i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        .pricing-card .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--white);
+            padding: 4px 20px;
+            border-radius: 60px;
+            font-size: 14px !important;
+            font-weight: 600;
+        }
+
+        /* FAQ Accordion */
+        .faq-item {
+            border: 1px solid rgba(96, 63, 131, 0.06);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(96, 63, 131, 0.15);
+        }
+
+        .faq-item .faq-question {
+            padding: 18px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s ease;
+            background: var(--bg-main);
+        }
+
+        .faq-item .faq-question:hover {
+            background: rgba(96, 63, 131, 0.02);
+        }
+
+        .faq-item .faq-question i {
+            transition: transform 0.3s ease;
+            color: var(--primary);
+        }
+
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 24px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 24px 24px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ HEADER (sticky) ============ -->
+    <div id="site-header" class="fixed-top">
+        <nav class="navbar navbar-expand-lg py-2">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-compass-fill"></i> Compass<span style="color:var(--primary);">.</span>
+                </a>
+                <button class="navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                        <li class="nav-item">
+                            <button class="theme-toggle ms-2" id="themeToggle" aria-label="Toggle theme">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container section-padding">
+
+        <!-- HERO with different image -->
+        <section class="row align-items-center section-gap">
+            <div class="col-lg-7">
+                <span class="hero-badge mb-3 d-inline-block"><i class="bi bi-info-circle me-1"></i> service
+                    details</span>
+                <h1 class="fw-bold mb-3" style="color:var(--text-main);">
+                    Property Sales &amp; Advisory
+                </h1>
+                <p style="font-size:18px; opacity:0.85; max-width:560px;">
+                    Comprehensive sales and advisory services designed to maximize your property's value and streamline
+                    the transaction process.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="#pricing" class="btn-primary-custom"><i class="bi bi-tag me-2"></i>View pricing</a>
+                    <!-- <a href="#faq" class="btn-outline-primary-custom"><i class="bi bi-question-circle me-2"></i>FAQs</a> -->
+                </div>
+            </div>
+            <div class="col-lg-5 mt-4 mt-lg-0">
+                <div class="detail-image">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"
+                        alt="Luxury property interior" />
+                </div>
+            </div>
+        </section>
+
+        <!-- IN-DEPTH DESCRIPTION -->
+        <section class="section-gap">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>What we offer</h2>
+                    <p style="opacity:0.85;">Our property sales and advisory service provides end-to-end support for
+                        buyers and sellers. We combine market intelligence, negotiation expertise, and personalized
+                        guidance to ensure you achieve the best possible outcome.</p>
+                    <p style="opacity:0.85; margin-top:12px;">Whether you're purchasing your dream home, selling an
+                        investment property, or seeking strategic advisory, our team of certified professionals is here
+                        to help. We leverage cutting-edge analytics and deep local knowledge to give you a competitive
+                        edge.</p>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <ul class="feature-list">
+                                <li><i class="bi bi-check-circle-fill"></i> Comprehensive market analysis</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Professional property staging</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Expert negotiation support</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="feature-list">
+                                <li><i class="bi bi-check-circle-fill"></i> Legal &amp; closing coordination</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Marketing &amp; exposure campaigns</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Post-sale support &amp; transition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mt-4 mt-lg-0">
+                    <div
+                        style="background: rgba(96,63,131,0.03); border-radius: 20px; padding: 24px; border: 1px solid rgba(96,63,131,0.06);">
+                        <h5>Quick facts</h5>
+                        <div style="padding:12px 0; border-bottom:1px solid rgba(96,63,131,0.06);">
+                            <span style="opacity:0.6;">Average sale time</span><br />
+                            <span style="font-weight:700; font-size:22px !important; color:var(--primary);">45
+                                days</span>
+                        </div>
+                        <div style="padding:12px 0; border-bottom:1px solid rgba(96,63,131,0.06);">
+                            <span style="opacity:0.6;">Success rate</span><br />
+                            <span style="font-weight:700; font-size:22px !important; color:var(--primary);">98%</span>
+                        </div>
+                        <div style="padding:12px 0;">
+                            <span style="opacity:0.6;">Client satisfaction</span><br />
+                            <span style="font-weight:700; font-size:22px !important; color:var(--primary);">4.9 ★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING TABLE - all buttons use btn-primary-custom -->
+        <section id="pricing" class="section-gap">
+            <h2 class="mb-4">Pricing plans</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h4>Standard</h4>
+                        <div class="price">3% <span>commission</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="bi bi-check"></i> Market analysis</li>
+                            <li><i class="bi bi-check"></i> Online listing</li>
+                            <li><i class="bi bi-check"></i> Basic photography</li>
+                            <li><i class="bi bi-x" style="color:var(--text-main); opacity:0.3;"></i> Professional
+                                staging</li>
+                            <li><i class="bi bi-x" style="color:var(--text-main); opacity:0.3;"></i> Premium marketing
+                            </li>
+                        </ul>
+                        <a href="#" class="btn-primary-custom">Get started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-card" style="border-color:var(--primary);">
+                        <span class="popular-badge">Popular</span>
+                        <h4>Premium</h4>
+                        <div class="price">5% <span>commission</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="bi bi-check"></i> Market analysis</li>
+                            <li><i class="bi bi-check"></i> Online listing</li>
+                            <li><i class="bi bi-check"></i> Professional photography</li>
+                            <li><i class="bi bi-check"></i> Professional staging</li>
+                            <li><i class="bi bi-check"></i> Premium marketing campaign</li>
+                        </ul>
+                        <a href="#" class="btn-primary-custom">Get started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h4>Advisory</h4>
+                        <div class="price">$500 <span>/ hour</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="bi bi-check"></i> Strategic consultation</li>
+                            <li><i class="bi bi-check"></i> Investment analysis</li>
+                            <li><i class="bi bi-check"></i> Portfolio advisory</li>
+                            <li><i class="bi bi-check"></i> Market forecasting</li>
+                            <li><i class="bi bi-check"></i> Custom reporting</li>
+                        </ul>
+                        <a href="#" class="btn-primary-custom">Get started</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq" class="section-gap">
+            <h2 class="mb-4">Frequently asked questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How long does the sales process typically take?</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="opacity:0.85;">On average, our sales process takes 45 days from listing to closing.
+                            This timeline can vary based on market conditions, property type, and buyer demand. We work
+                            efficiently to expedite the process while ensuring you get the best value.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What's included in your premium marketing package?</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="opacity:0.85;">Our premium marketing package includes professional photography,
+                            virtual tours, social media campaigns, targeted email marketing, featured listings on major
+                            platforms, and premium placement in our network.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Do you offer virtual property tours?</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="opacity:0.85;">Yes, we provide 3D virtual tours and video walkthroughs for all our
+                            listings. This allows potential buyers to explore properties remotely, saving time and
+                            increasing engagement.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What areas do you serve?</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="opacity:0.85;">We serve the greater metropolitan area including Manhattan, Brooklyn,
+                            Queens, and surrounding suburbs. Our team has deep local knowledge and extensive networks in
+                            these regions.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do you determine the listing price?</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="opacity:0.85;">We use a comprehensive approach combining comparative market analysis,
+                            recent sales data, property condition assessment, and current market trends. Our data-driven
+                            methodology ensures accurate pricing that attracts buyers while maximizing your return.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="section-gap">
+            <div
+                style="background: var(--bg-main); border: 1px solid rgba(96,63,131,0.10); border-radius: 28px; padding: 48px 32px; text-align: center; transition: 0.3s ease;">
+                <h3>Ready to get started?</h3>
+                <p style="opacity:0.8; max-width:500px; margin:0 auto;">Let's discuss your property needs. Our experts
+                    are here to guide you every step of the way.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                    <a href="contactus.html" class="btn-primary-custom"><i class="bi bi-calendar me-2"></i>Book a
+                        consultation</a>
+                    <!-- <a href="#" class="btn-outline-primary-custom"><i class="bi bi-envelope me-2"></i>Email us</a> -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER (preserved - using side-footer) ============ -->
+    <div id="side-footer"></div>
+
+    <!-- scripts -->
+    <script src="footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="header.js"></script>
+
+    <!-- ====== custom JS ====== -->
+    <script>
+        (function () {
+            // Theme toggle
+            const toggleBtn = document.getElementById('themeToggle');
+            const icon = document.getElementById('themeIcon');
+            const html = document.documentElement;
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    html.setAttribute('data-theme', 'dark');
+                    icon.className = 'bi bi-sun-fill';
+                } else {
+                    html.removeAttribute('data-theme');
+                    icon.className = 'bi bi-moon-fill';
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            const saved = localStorage.getItem('theme') || 'light';
+            setTheme(saved);
+
+            toggleBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const current = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                setTheme(current);
+            });
+
+            // Navbar toggler active
+            const toggler = document.querySelector('.navbar-toggler-custom');
+            const collapse = document.getElementById('navbarContent');
+            if (toggler && collapse) {
+                collapse.addEventListener('show.bs.collapse', function () {
+                    toggler.classList.add('active');
+                    toggler.setAttribute('aria-expanded', 'true');
+                });
+                collapse.addEventListener('hide.bs.collapse', function () {
+                    toggler.classList.remove('active');
+                    toggler.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            // FAQ toggle
+            window.toggleFAQ = function (element) {
+                const parent = element.closest('.faq-item');
+                parent.classList.toggle('active');
+            };
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z-]{2,}\.(com|in|org|net)$/i;
+        })();
+    </script>
+</body>
+
+</html>

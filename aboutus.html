@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+  <title>Compass · About Us</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- globalstyles.css (placeholder) -->
+  <link rel="stylesheet" href="globalstyles.css" />
+
+  <style>
+    /* ---------- ROOT (only 3 colors + light/dark) ---------- */
+    :root {
+      --primary: #603F83;
+      --white: #ffffff;
+      --black: #000000;
+      --bg-light: #ffffff;
+      --text-light: #000000;
+      --bg-dark: #000000;
+      --text-dark: #ffffff;
+      --bg-main: var(--bg-light);
+      --text-main: var(--text-light);
+    }
+
+    :root[data-theme="dark"] {
+      --bg-light: #000000;
+      --bg-dark: #000000;
+      --text-light: #ffffff;
+      --text-dark: #ffffff;
+      --bg-main: #000000;
+      --text-main: #ffffff;
+    }
+
+    /* ---------- GLOBAL ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding-top: 80px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      line-height: 1.5;
+    }
+
+    /* background logo (transparent) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("images/transparent-logo-1.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 600px auto;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: -1;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ---------- FIXED HIERARCHY FONT SIZES ---------- */
+    h1 { font-size: 46px; font-weight: 700; letter-spacing: -0.02em; }
+    h2 { font-size: 34px; font-weight: 700; }
+    h3 { font-size: 24px; font-weight: 700; }
+    h4 { font-size: 23px; font-weight: 700; }
+    h5 { font-size: 22px; font-weight: 700; }
+    h6 { font-size: 21px; font-weight: 700; }
+    p, span, li, .fs-18, .nav-link, .btn, input, label, .card-text, .footer-text {
+      font-size: 18px !important;
+      line-height: normal;
+    }
+
+    /* ---------- STICKY HEADER ---------- */
+    .fixed-top {
+      background-color: var(--bg-main) !important;
+      border-bottom: 1px solid rgba(96, 63, 131, 0.10);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.02);
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar-brand {
+      color: var(--text-main) !important;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .navbar-brand i { color: var(--primary); margin-right: 8px; }
+
+    .nav-link {
+      color: var(--text-main) !important;
+      font-size: 18px !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 60px;
+      transition: all 0.25s ease;
+    }
+    .nav-link:hover, .nav-link:focus, .nav-link.active {
+      background-color: var(--primary) !important;
+      color: var(--white) !important;
+      box-shadow: 0 6px 18px rgba(96, 63, 131, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--text-main);
+      border-radius: 60px;
+      padding: 6px 18px;
+      font-size: 18px;
+      transition: all 0.25s ease;
+    }
+    .theme-toggle:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+      transform: scale(1.04);
+    }
+
+    /* ---------- BUTTONS (same across all pages) ---------- */
+    .btn-primary-custom {
+      background: var(--primary);
+      color: var(--white);
+      border: 2px solid var(--primary);
+      border-radius: 60px;
+      padding: 12px 34px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 4px 14px rgba(96, 63, 131, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary-custom::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 60px;
+    }
+    .btn-primary-custom:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(96, 63, 131, 0.35);
+      color: var(--primary);
+      background: transparent;
+      border-color: var(--primary);
+    }
+    .btn-primary-custom:hover::after { opacity: 0.08; }
+    .btn-primary-custom:active { transform: scale(0.96); }
+
+    .btn-outline-primary-custom {
+      border: 2px solid var(--primary);
+      color: var(--text-main);
+      background: transparent;
+      border-radius: 60px;
+      padding: 12px 34px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-outline-primary-custom::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 60px;
+    }
+    .btn-outline-primary-custom:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(96, 63, 131, 0.25);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+    .btn-outline-primary-custom:hover::after { opacity: 0.12; }
+    .btn-outline-primary-custom:active { transform: scale(0.96); }
+
+    /* ---------- ABOUT PAGE SPECIFIC STYLES ---------- */
+    .section-gap { margin-top: 40px; margin-bottom: 40px; }
+    .section-padding { padding-top: 40px; padding-bottom: 40px; }
+
+
+
+    /* responsive */
+    @media (max-width: 576px) {
+      h1 { font-size: 38px; }
+      h2 { font-size: 28px; }
+      h3 { font-size: 22px; }
+      .section-padding { padding-top: 28px; padding-bottom: 28px; }
+      .section-gap { margin-top: 28px; margin-bottom: 28px; }
+    }
+
+    .text-primary-custom { color: var(--primary) !important; }
+    .navbar-toggler-custom {
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 32px;
+      padding: 0 8px;
+      transition: 0.25s ease;
+    }
+    .navbar-toggler-custom:hover,
+    .navbar-toggler-custom:focus {
+      color: var(--primary);
+      transform: rotate(4deg);
+    }
+    .navbar-toggler-custom.active { color: var(--primary); }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(96, 63, 131, 0.07);
+      color: var(--primary);
+      padding: 6px 20px;
+      border-radius: 60px;
+      font-size: 18px;
+      border: 1px solid rgba(96,63,131,0.08);
+    }
+
+    /* Mission & Vision Cards */
+    .mission-card {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.08);
+      border-radius: 28px;
+      padding: 32px 28px;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .mission-card:hover::before { opacity: 1; }
+    .mission-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 16px 40px rgba(96, 63, 131, 0.06);
+      transform: translateY(-6px);
+    }
+    .mission-card .icon-wrap {
+      width: 60px;
+      height: 60px;
+      background: rgba(96, 63, 131, 0.06);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--primary);
+      transition: all 0.3s ease;
+      margin-bottom: 16px;
+    }
+    .mission-card:hover .icon-wrap {
+      background: var(--primary);
+      color: var(--white);
+      transform: scale(1.05) rotate(-4deg);
+    }
+
+    /* Team Member Card */
+    .team-card {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.06);
+      border-radius: 28px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      height: 100%;
+    }
+    .team-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 16px 40px rgba(96, 63, 131, 0.06);
+      transform: translateY(-6px);
+    }
+    .team-avatar {
+      width: 90px;
+      height: 90px;
+      background: rgba(96, 63, 131, 0.06);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 40px;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+    .team-card:hover .team-avatar {
+      background: var(--primary);
+      color: var(--white);
+      transform: scale(1.05);
+    }
+    .team-card .role {
+      color: var(--primary);
+      font-weight: 600;
+      opacity: 0.7;
+    }
+
+    /* History Timeline */
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(96, 63, 131, 0.06);
+      transition: 0.25s ease;
+    }
+    .timeline-item:hover { padding-left: 8px; }
+    .timeline-item .year {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 22px;
+      min-width: 80px;
+    }
+    .timeline-item .content { flex: 1; }
+
+    /* Values Card (replacing testimonials) */
+    .value-card {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.06);
+      border-radius: 28px;
+      padding: 32px 28px;
+      text-align: center;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      height: 100%;
+    }
+    .value-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 16px 40px rgba(96, 63, 131, 0.06);
+      transform: translateY(-6px);
+    }
+    .value-card .value-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(96, 63, 131, 0.06);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+    .value-card:hover .value-icon {
+      background: var(--primary);
+      color: var(--white);
+      transform: scale(1.05) rotate(-4deg);
+    }
+
+    /* Work With Us Section */
+    .work-card {
+      background: var(--bg-main);
+      border: 1px solid rgba(96, 63, 131, 0.06);
+      border-radius: 28px;
+      padding: 28px 24px;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      height: 100%;
+      text-align: center;
+    }
+    .work-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 16px 40px rgba(96, 63, 131, 0.06);
+      transform: translateY(-6px);
+    }
+    .work-card .step-number {
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0 auto 16px;
+      transition: all 0.3s ease;
+    }
+    .work-card:hover .step-number {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(96, 63, 131, 0.3);
+    }
+
+    .stat-number {
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .about-badge {
+      display: inline-block;
+      background: rgba(96, 63, 131, 0.06);
+      color: var(--primary);
+      padding: 4px 16px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 16px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HEADER (sticky) ============ -->
+  <div id="site-header" class="fixed-top">
+    <nav class="navbar navbar-expand-lg py-2">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <i class="bi bi-compass-fill"></i> Compass<span style="color:var(--primary);">.</span>
+        </a>
+        <button class="navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            <li class="nav-item">
+              <button class="theme-toggle ms-2" id="themeToggle" aria-label="Toggle theme">
+                <i class="bi bi-moon-fill" id="themeIcon"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main class="container section-padding">
+
+    <!-- HERO -->
+    <section class="row align-items-center section-gap">
+      <div class="col-lg-7">
+        <span class="hero-badge mb-3 d-inline-block"><i class="bi bi-people me-1"></i> about compass</span>
+        <h1 class="fw-bold mb-3" style="color:var(--text-main);">
+          Building trust through<br />excellence since 2012
+        </h1>
+        <p style="font-size:18px; opacity:0.85; max-width:540px;">
+          We are a team of passionate professionals dedicated to delivering exceptional real estate and digital solutions.
+        </p>
+        <div class="d-flex flex-wrap gap-4 mt-4">
+          <div><span class="stat-number">200+</span><br /><span style="opacity:0.6;">projects completed</span></div>
+          <div><span class="stat-number">98%</span><br /><span style="opacity:0.6;">client satisfaction</span></div>
+          <div><span class="stat-number">4.9★</span><br /><span style="opacity:0.6;">average rating</span></div>
+        </div>
+      </div>
+      <div class="col-lg-5 mt-4 mt-lg-0">
+        <div class="mission-card p-4" style="background: var(--bg-main); border-left: 4px solid var(--primary);">
+          <div class="icon-wrap">
+            <i class="bi bi-compass"></i>
+          </div>
+          <h3 class="mt-2">Our purpose</h3>
+          <p>To create lasting value for our clients through innovation, integrity, and unwavering commitment to quality.</p>
+          <span class="about-badge">Est. 2012</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION & VISION -->
+    <section class="section-gap">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="mission-card">
+            <div class="icon-wrap"><i class="bi bi-rocket"></i></div>
+            <h4>Our Mission</h4>
+            <p style="opacity:0.85;">To empower individuals and businesses with exceptional real estate and digital solutions that transform communities and drive growth.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mission-card">
+            <div class="icon-wrap"><i class="bi bi-eye"></i></div>
+            <h4>Our Vision</h4>
+            <p style="opacity:0.85;">To be the most trusted partner for real estate and digital innovation, setting new standards of excellence in every market we serve.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY TIMELINE -->
+    <section class="section-gap">
+      <h2 class="mb-4">Our journey</h2>
+      <div style="background: var(--bg-main); border: 1px solid rgba(96,63,131,0.06); border-radius: 28px; padding: 32px;">
+        <div class="timeline-item">
+          <span class="year">2012</span>
+          <div class="content">
+            <h5>Founded in New York</h5>
+            <p style="opacity:0.75;">Compass was established with a vision to revolutionize real estate through technology and personalized service.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2015</span>
+          <div class="content">
+            <h5>Expansion &amp; Innovation</h5>
+            <p style="opacity:0.75;">Launched our digital platform, connecting buyers and sellers with AI-powered insights and virtual tours.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2018</span>
+          <div class="content">
+            <h5>National Reach</h5>
+            <p style="opacity:0.75;">Expanded operations to 15 states, serving over 500 clients with our full‑service real estate solutions.</p>
+          </div>
+        </div>
+        <div class="timeline-item" style="border-bottom: none;">
+          <span class="year">2024</span>
+          <div class="content">
+            <h5>Digital Agency Launch</h5>
+            <p style="opacity:0.75;">Launched our digital agency division, offering SaaS development and digital transformation services.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="section-gap">
+      <h2 class="mb-4">Meet the team</h2>
+      <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+          <div class="team-card">
+            <div class="team-avatar"><i class="bi bi-person-fill"></i></div>
+            <h5>Sarah Chen</h5>
+            <span class="role">CEO &amp; Founder</span>
+            <p style="opacity:0.7; font-size:16px !important; margin-top:8px;">20+ years in real estate</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="team-card">
+            <div class="team-avatar"><i class="bi bi-person-fill"></i></div>
+            <h5>Mark Rivera</h5>
+            <span class="role">CTO</span>
+            <p style="opacity:0.7; font-size:16px !important; margin-top:8px;">Ex-Google, SaaS expert</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="team-card">
+            <div class="team-avatar"><i class="bi bi-person-fill"></i></div>
+            <h5>Emily Park</h5>
+            <span class="role">Head of Design</span>
+            <p style="opacity:0.7; font-size:16px !important; margin-top:8px;">Award‑winning designer</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="team-card">
+            <div class="team-avatar"><i class="bi bi-person-fill"></i></div>
+            <h5>James O'Brien</h5>
+            <span class="role">VP of Sales</span>
+            <p style="opacity:0.7; font-size:16px !important; margin-top:8px;">15+ years in real estate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES SECTION (replacing testimonials) -->
+    <section class="section-gap">
+      <h2 class="mb-4">Our core values</h2>
+      <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+          <div class="value-card">
+            <div class="value-icon"><i class="bi bi-shield-check"></i></div>
+            <h5>Integrity</h5>
+            <p style="opacity:0.7; font-size:16px !important;">We do what's right, always.</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="value-card">
+            <div class="value-icon"><i class="bi bi-lightbulb"></i></div>
+            <h5>Innovation</h5>
+            <p style="opacity:0.7; font-size:16px !important;">Pushing boundaries every day.</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="value-card">
+            <div class="value-icon"><i class="bi bi-people"></i></div>
+            <h5>Collaboration</h5>
+            <p style="opacity:0.7; font-size:16px !important;">Stronger together.</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="value-card">
+            <div class="value-icon"><i class="bi bi-star"></i></div>
+            <h5>Excellence</h5>
+            <p style="opacity:0.7; font-size:16px !important;">Delivering the best, always.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK WITH US SECTION (properly detailed) -->
+    <section class="section-gap">
+      <h2 class="mb-4">How to work with us</h2>
+      <p style="opacity:0.85; max-width:600px; margin-bottom:32px;">We've made the process simple and transparent. Here's how we collaborate with our clients:</p>
+      <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+          <div class="work-card">
+            <div class="step-number">1</div>
+            <h5>Discovery Call</h5>
+            <p style="opacity:0.7; font-size:16px !important;">We start with a 30‑minute consultation to understand your goals, challenges, and vision.</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="work-card">
+            <div class="step-number">2</div>
+            <h5>Strategy &amp; Proposal</h5>
+            <p style="opacity:0.7; font-size:16px !important;">We create a tailored roadmap with clear deliverables, timelines, and pricing.</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="work-card">
+            <div class="step-number">3</div>
+            <h5>Execution &amp; Collaboration</h5>
+            <p style="opacity:0.7; font-size:16px !important;">Our team works closely with you, providing regular updates and feedback loops.</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="work-card">
+            <div class="step-number">4</div>
+            <h5>Launch &amp; Support</h5>
+            <p style="opacity:0.7; font-size:16px !important;">We deliver, test, and provide ongoing support to ensure long‑term success.</p>
+          </div>
+        </div>
+      </div>
+   
+    </section>
+
+   
+
+  </main>
+
+  <!-- ============ FOOTER (preserved) ============ -->
+  <div id="side-footer"></div>
+
+  <!-- scripts -->
+  <script src="footer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="header.js"></script>
+
+  <!-- ====== custom JS ====== -->
+  <script>
+    (function() {
+      // Theme toggle
+      const toggleBtn = document.getElementById('themeToggle');
+      const icon = document.getElementById('themeIcon');
+      const html = document.documentElement;
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+          icon.className = 'bi bi-sun-fill';
+        } else {
+          html.removeAttribute('data-theme');
+          icon.className = 'bi bi-moon-fill';
+        }
+        localStorage.setItem('theme', theme);
+      }
+
+      const saved = localStorage.getItem('theme') || 'light';
+      setTheme(saved);
+
+      toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const current = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        setTheme(current);
+      });
+
+      // Navbar toggler active
+      const toggler = document.querySelector('.navbar-toggler-custom');
+      const collapse = document.getElementById('navbarContent');
+      if (toggler && collapse) {
+        collapse.addEventListener('show.bs.collapse', function() {
+          toggler.classList.add('active');
+          toggler.setAttribute('aria-expanded', 'true');
+        });
+        collapse.addEventListener('hide.bs.collapse', function() {
+          toggler.classList.remove('active');
+          toggler.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      // email pattern (kept for consistency)
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z-]{2,}\.(com|in|org|net)$/i;
+    })();
+  </script>
+</body>
+</html>

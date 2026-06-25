@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Compass · Real Estate Services</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- globalstyles.css (placeholder) -->
+    <link rel="stylesheet" href="globalstyles.css" />
+
+    <style>
+        /* ---------- ROOT (only 3 colors + light/dark) ---------- */
+        :root {
+            --primary: #603F83;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #ffffff;
+            --text-light: #000000;
+            --bg-dark: #000000;
+            --text-dark: #ffffff;
+            --bg-main: var(--bg-light);
+            --text-main: var(--text-light);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-light: #000000;
+            --bg-dark: #000000;
+            --text-light: #ffffff;
+            --text-dark: #ffffff;
+            --bg-main: #000000;
+            --text-main: #ffffff;
+        }
+
+        /* ---------- GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-top: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.5;
+        }
+
+        /* background logo (transparent) */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("images/transparent-logo-1.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 600px auto;
+            opacity: 0.10;
+            pointer-events: none;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ---------- FIXED HIERARCHY FONT SIZES ---------- */
+        h1 {
+            font-size: 46px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        h5 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        h6 {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        p,
+        span,
+        li,
+        .fs-18,
+        .nav-link,
+        .btn,
+        input,
+        label,
+        .card-text {
+            font-size: 18px !important;
+            line-height: normal;
+        }
+
+        /* ---------- STICKY HEADER ---------- */
+        .fixed-top {
+            background-color: var(--bg-main) !important;
+            border-bottom: 1px solid rgba(96, 63, 131, 0.10);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.02);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: var(--text-main) !important;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: var(--text-main) !important;
+            font-size: 18px !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 60px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            background-color: var(--primary) !important;
+            color: var(--white) !important;
+            box-shadow: 0 6px 18px rgba(96, 63, 131, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--text-main);
+            border-radius: 60px;
+            padding: 6px 18px;
+            font-size: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: scale(1.04);
+        }
+
+        /* ---------- BUTTONS ---------- */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 60px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 14px rgba(96, 63, 131, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+
+        .btn-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 60px;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.35);
+            color: var(--primary);
+            background: transparent;
+            border-color: var(--primary);
+            text-decoration: none !important;
+        }
+
+        .btn-primary-custom:hover::after {
+            opacity: 0.08;
+        }
+
+        .btn-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        .btn-outline-primary-custom {
+            border: 2px solid var(--primary);
+            color: var(--text-main);
+            background: transparent;
+            border-radius: 60px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+
+        .btn-outline-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 60px;
+        }
+
+        .btn-outline-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.25);
+            color: var(--white);
+            border-color: var(--primary);
+            text-decoration: none !important;
+        }
+
+        .btn-outline-primary-custom:hover::after {
+            opacity: 0.12;
+        }
+
+        .btn-outline-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        /* ---------- SERVICES PAGE SPECIFIC STYLES ---------- */
+        .section-gap {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-padding {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 38px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 22px;
+            }
+
+            .section-padding {
+                padding-top: 28px;
+                padding-bottom: 28px;
+            }
+
+            .section-gap {
+                margin-top: 28px;
+                margin-bottom: 28px;
+            }
+        }
+
+        .text-primary-custom {
+            color: var(--primary) !important;
+        }
+
+        .navbar-toggler-custom {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 32px;
+            padding: 0 8px;
+            transition: 0.25s ease;
+        }
+
+        .navbar-toggler-custom:hover,
+        .navbar-toggler-custom:focus {
+            color: var(--primary);
+            transform: rotate(4deg);
+        }
+
+        .navbar-toggler-custom.active {
+            color: var(--primary);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(96, 63, 131, 0.07);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-size: 18px;
+            border: 1px solid rgba(96, 63, 131, 0.08);
+        }
+
+        /* Service Card with real image */
+        .service-card-img {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.08);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%;
+        }
+
+        .service-card-img:hover {
+            border-color: var(--primary);
+            box-shadow: 0 16px 40px rgba(96, 63, 131, 0.08);
+            transform: translateY(-6px);
+        }
+
+        .service-card-img .img-wrap {
+            height: 200px;
+            overflow: hidden;
+            background: rgba(96, 63, 131, 0.04);
+        }
+
+        .service-card-img .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card-img:hover .img-wrap img {
+            transform: scale(1.04);
+        }
+
+        .service-card-img .card-body {
+            padding: 24px 28px;
+        }
+
+        .service-card-img .card-body .tag {
+            display: inline-block;
+            background: rgba(96, 63, 131, 0.06);
+            color: var(--primary);
+            padding: 2px 14px;
+            border-radius: 60px;
+            font-size: 14px !important;
+            font-weight: 600;
+        }
+
+        /* Property showcase with real images */
+        .property-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .property-item {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.06);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: 0.35s ease;
+        }
+
+        .property-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.06);
+        }
+
+        .property-item .prop-img {
+            height: 180px;
+            overflow: hidden;
+            background: rgba(96, 63, 131, 0.04);
+        }
+
+        .property-item .prop-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .property-item:hover .prop-img img {
+            transform: scale(1.04);
+        }
+
+        .property-item .prop-body {
+            padding: 20px 24px;
+        }
+
+        .property-item .prop-body .price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 22px !important;
+        }
+
+        .stat-number {
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.06);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .feature-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(96, 63, 131, 0.05);
+        }
+
+        .feature-item i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        /* Hero image grid with real images */
+        .hero-image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .hero-image-grid .img-box {
+            border-radius: 20px;
+            overflow: hidden;
+            height: 140px;
+            border: 1px solid rgba(96, 63, 131, 0.06);
+            transition: 0.3s ease;
+        }
+
+        .hero-image-grid .img-box:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(96, 63, 131, 0.08);
+        }
+
+        .hero-image-grid .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image-grid .img-box:hover img {
+            transform: scale(1.04);
+        }
+
+        .hero-image-grid .img-box:first-child {
+            grid-column: 1 / 3;
+            height: 180px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ HEADER (sticky) ============ -->
+    <div id="site-header" class="fixed-top">
+        <nav class="navbar navbar-expand-lg py-2">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-compass-fill"></i> Compass<span style="color:var(--primary);">.</span>
+                </a>
+                <button class="navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                        <li class="nav-item">
+                            <button class="theme-toggle ms-2" id="themeToggle" aria-label="Toggle theme">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container section-padding">
+
+        <!-- HERO with image grid (different modern layout) -->
+        <section class="row align-items-center section-gap">
+            <div class="col-lg-6">
+                <span class="hero-badge mb-3 d-inline-block"><i class="bi bi-grid me-1"></i> premium real estate</span>
+                <h1 class="fw-bold mb-3" style="color:var(--text-main);">
+                    Your property journey<br />starts here
+                </h1>
+                <p style="font-size:18px; opacity:0.85; max-width:520px;">
+                    From valuation to closing, we provide end-to-end real estate services with transparency and
+                    expertise.
+                </p>
+                <div class="d-flex flex-wrap gap-4 mt-4">
+                    <div><span class="stat-number">200+</span><br /><span style="opacity:0.6;">properties sold</span>
+                    </div>
+                    <div><span class="stat-number">98%</span><br /><span style="opacity:0.6;">client satisfaction</span>
+                    </div>
+                    <div><span class="stat-number">4.9★</span><br /><span style="opacity:0.6;">client rating</span>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="contactus.html" class="btn-primary-custom"><i class="bi bi-calendar me-2"></i>Book
+                        consultation</a>
+
+                </div>
+            </div>
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <div class="hero-image-grid">
+                    <div class="img-box"><img
+                            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop"
+                            alt="Luxury home" /></div>
+                    <div class="img-box"><img
+                            src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop"
+                            alt="Modern house" /></div>
+                    <div class="img-box"><img
+                            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop"
+                            alt="Interior" /></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES WITH REAL IMAGES -->
+        <section class="section-gap">
+            <h2 class="mb-4">Our services</h2>
+            <div class="row g-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-card-img">
+                        <div class="img-wrap"><img
+                                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop"
+                                alt="Property Sales" /></div>
+                        <div class="card-body">
+                            <h4>Property Sales</h4>
+                            <p style="opacity:0.85;">Expert guidance to buy or sell your property at the best market
+                                value.</p>
+                            <span class="tag">Popular</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-card-img">
+                        <div class="img-wrap"><img
+                                src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop"
+                                alt="Leasing" /></div>
+                        <div class="card-body">
+                            <h4>Leasing &amp; Rentals</h4>
+                            <p style="opacity:0.85;">Find the perfect tenant or rental property with our comprehensive
+                                leasing services.</p>
+                            <span class="tag">Flexible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-card-img">
+                        <div class="img-wrap"><img
+                                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&crop=center"
+                                alt="Valuation" /></div>
+                        <div class="card-body">
+                            <h4>Valuation &amp; Advisory</h4>
+                            <p style="opacity:0.85;">Data-driven property valuations and investment advisory services.
+                            </p>
+                            <span class="tag">Expert</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-card-img">
+                        <div class="img-wrap"><img
+                                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
+                                alt="Property Management" /></div>
+                        <div class="card-body">
+                            <h4>Property Management</h4>
+                            <p style="opacity:0.85;">Full-service management including maintenance, tenant relations,
+                                and reporting.</p>
+                            <span class="tag">24/7</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-card-img">
+                        <div class="img-wrap"><img
+                                src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop"
+                                alt="Legal Services" /></div>
+                        <div class="card-body">
+                            <h4>Legal &amp; Closing</h4>
+                            <p style="opacity:0.85;">Seamless transaction management with full legal compliance and
+                                support.</p>
+                            <span class="tag">Trusted</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-card-img">
+                        <div class="img-wrap"><img
+                                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop&crop=center"
+                                alt="Staging & Marketing" /></div>
+                        <div class="card-body">
+                            <h4>Staging &amp; Marketing</h4>
+                            <p style="opacity:0.85;">Professional staging, photography, and targeted marketing
+                                campaigns.</p>
+                            <span class="tag">Award-winning</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPERTY SHOWCASE with real images -->
+        <section class="section-gap">
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                <h2>Featured properties</h2>
+                <!-- <span style="opacity:0.6; font-size:16px !important;">View all <i class="bi bi-arrow-right"></i></span> -->
+            </div>
+            <div class="property-showcase">
+                <div class="property-item">
+                    <div class="prop-img"><img
+                            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop"
+                            alt="Modern Penthouse" /></div>
+                    <div class="prop-body">
+                        <h5>Modern Penthouse</h5>
+                        <p style="opacity:0.7;">Central Park view · 3 beds · 2 baths</p>
+                        <span class="price">$1.2M</span>
+                    </div>
+                </div>
+                <div class="property-item">
+                    <div class="prop-img"><img
+                            src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop"
+                            alt="Villa Serena" /></div>
+                    <div class="prop-body">
+                        <h5>Villa Serena</h5>
+                        <p style="opacity:0.7;">Gated community · pool · 5 beds</p>
+                        <span class="price">$2.8M</span>
+                    </div>
+                </div>
+                <div class="property-item">
+                    <div class="prop-img"><img
+                            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
+                            alt="Beachfront Estate" /></div>
+                    <div class="prop-body">
+                        <h5>Beachfront Estate</h5>
+                        <p style="opacity:0.7;">Ocean views · 4 beds · 3 baths</p>
+                        <span class="price">$3.5M</span>
+                    </div>
+                </div>
+                <div class="property-item">
+                    <div class="prop-img"><img
+                            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"
+                            alt="Hilltop Retreat" /></div>
+                    <div class="prop-body">
+                        <h5>Hilltop Retreat</h5>
+                        <p style="opacity:0.7;">Panoramic views · 6 beds · 4 baths</p>
+                        <span class="price">$4.2M</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US / FEATURES -->
+        <section class="section-gap">
+            <div class="row align-items-center">
+                <div class="col-lg-5">
+                    <span class="hero-badge mb-2 d-inline-block"><i class="bi bi-star me-1"></i> why compass</span>
+                    <h2>Built on trust and expertise</h2>
+                    <p style="opacity:0.85;">We combine deep industry knowledge with a client-first approach to deliver
+                        exceptional results.</p>
+                    <div class="feature-grid mt-3">
+                        <div class="feature-item">
+                            <i class="bi bi-people"></i>
+                            <h6>Expert Team</h6>
+                            <p style="opacity:0.7; font-size:15px !important;">20+ years combined</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-shield-check"></i>
+                            <h6>Trusted</h6>
+                            <p style="opacity:0.7; font-size:15px !important;">200+ happy clients</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-graph-up"></i>
+                            <h6>Results</h6>
+                            <p style="opacity:0.7; font-size:15px !important;">98% satisfaction</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="bi bi-clock"></i>
+                            <h6>24/7 Support</h6>
+                            <p style="opacity:0.7; font-size:15px !important;">Always here to help</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 mt-4 mt-lg-0">
+                    <div
+                        style="background: var(--bg-main); border: 1px solid rgba(96,63,131,0.06); border-radius: 28px; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div
+                            style="text-align:center; padding:16px; background:rgba(96,63,131,0.02); border-radius:16px;">
+                            <div class="stat-number">$500M+</div>
+                            <span style="opacity:0.6;">total sales volume</span>
+                        </div>
+                        <div
+                            style="text-align:center; padding:16px; background:rgba(96,63,131,0.02); border-radius:16px;">
+                            <div class="stat-number">150+</div>
+                            <span style="opacity:0.6;">active listings</span>
+                        </div>
+                        <div
+                            style="text-align:center; padding:16px; background:rgba(96,63,131,0.02); border-radius:16px;">
+                            <div class="stat-number">4.9★</div>
+                            <span style="opacity:0.6;">client rating</span>
+                        </div>
+                        <div
+                            style="text-align:center; padding:16px; background:rgba(96,63,131,0.02); border-radius:16px;">
+                            <div class="stat-number">12</div>
+                            <span style="opacity:0.6;">years of excellence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="section-gap">
+            <div
+                style="background: var(--bg-main); border: 1px solid rgba(96,63,131,0.10); border-radius: 28px; padding: 48px 32px; text-align: center; transition: 0.3s ease;">
+                <h3>Ready to find your dream property?</h3>
+                <p style="opacity:0.8; max-width:500px; margin:0 auto;">Let's start your real estate journey today. Our
+                    experts are ready to help.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                    <a href="contactus.html" class="btn-primary-custom"><i class="bi bi-calendar me-2"></i>Book a
+                        consultation</a>
+                    <!-- <a href="contactus.html" class="btn-outline-primary-custom"><i class="bi bi-envelope me-2"></i>Email us</a> -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER (preserved - using side-footer) ============ -->
+    <div id="side-footer"></div>
+
+    <!-- scripts -->
+    <script src="footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="header.js"></script>
+
+    <!-- ====== custom JS ====== -->
+    <script>
+        (function () {
+            // Theme toggle
+            const toggleBtn = document.getElementById('themeToggle');
+            const icon = document.getElementById('themeIcon');
+            const html = document.documentElement;
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    html.setAttribute('data-theme', 'dark');
+                    icon.className = 'bi bi-sun-fill';
+                } else {
+                    html.removeAttribute('data-theme');
+                    icon.className = 'bi bi-moon-fill';
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            const saved = localStorage.getItem('theme') || 'light';
+            setTheme(saved);
+
+            toggleBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const current = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                setTheme(current);
+            });
+
+            // Navbar toggler active
+            const toggler = document.querySelector('.navbar-toggler-custom');
+            const collapse = document.getElementById('navbarContent');
+            if (toggler && collapse) {
+                collapse.addEventListener('show.bs.collapse', function () {
+                    toggler.classList.add('active');
+                    toggler.setAttribute('aria-expanded', 'true');
+                });
+                collapse.addEventListener('hide.bs.collapse', function () {
+                    toggler.classList.remove('active');
+                    toggler.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z-]{2,}\.(com|in|org|net)$/i;
+        })();
+    </script>
+</body>
+
+</html>

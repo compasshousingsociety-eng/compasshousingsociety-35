@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Contact Us · Compass Real Estate</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- globalstyles.css (placeholder) -->
+    <link rel="stylesheet" href="globalstyles.css" />
+
+    <style>
+        /* ---------- ROOT (only 3 colors + light/dark) ---------- */
+        :root {
+            --primary: #603F83;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #ffffff;
+            --text-light: #000000;
+            --bg-dark: #000000;
+            --text-dark: #ffffff;
+            --bg-main: var(--bg-light);
+            --text-main: var(--text-light);
+            --input-border: rgba(96, 63, 131, 0.2);
+            --input-bg: #f5f5f5;
+            --input-text: #000000;
+            --placeholder-color: rgba(0, 0, 0, 0.4);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-light: #000000;
+            --bg-dark: #000000;
+            --text-light: #ffffff;
+            --text-dark: #ffffff;
+            --bg-main: #000000;
+            --text-main: #ffffff;
+            --input-border: rgba(255, 255, 255, 0.2);
+            --input-bg: #1a1a1a;
+            --input-text: #ffffff;
+            --placeholder-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ---------- GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-top: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* background logo (transparent) */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("images/transparent-logo-1.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 600px auto;
+            opacity: 0.10;
+            pointer-events: none;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ---------- FIXED HIERARCHY FONT SIZES ---------- */
+        h1 {
+            font-size: 46px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        h5 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        h6 {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        p,
+        span,
+        li,
+        .fs-18,
+        .nav-link,
+        .btn,
+        input,
+        label,
+        .card-text {
+            font-size: 18px !important;
+            line-height: normal;
+        }
+
+        /* ---------- STICKY HEADER ---------- */
+        .fixed-top {
+            background-color: var(--bg-main) !important;
+            border-bottom: 1px solid rgba(96, 63, 131, 0.10);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.02);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: var(--text-main) !important;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: var(--text-main) !important;
+            font-size: 18px !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 60px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            background-color: var(--primary) !important;
+            color: var(--white) !important;
+            box-shadow: 0 6px 18px rgba(96, 63, 131, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--text-main);
+            border-radius: 60px;
+            padding: 6px 18px;
+            font-size: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: scale(1.04);
+        }
+
+        /* ---------- BUTTONS ---------- */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 14px rgba(96, 63, 131, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .btn-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 15px;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.35);
+            color: var(--primary);
+            background: transparent;
+            border-color: var(--primary);
+            text-decoration: none !important;
+        }
+
+        .btn-primary-custom:hover::after {
+            opacity: 0.08;
+        }
+
+        .btn-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        .btn-outline-primary-custom {
+            border: 2px solid var(--primary);
+            color: var(--text-main);
+            background: transparent;
+            border-radius: 15px;
+            padding: 12px 34px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: inline-block;
+        }
+
+        .btn-outline-primary-custom::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 15px;
+        }
+
+        .btn-outline-primary-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(96, 63, 131, 0.25);
+            color: var(--white);
+            border-color: var(--primary);
+            text-decoration: none !important;
+        }
+
+        .btn-outline-primary-custom:hover::after {
+            opacity: 0.12;
+        }
+
+        .btn-outline-primary-custom:active {
+            transform: scale(0.96);
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        /* ---------- CONTACT PAGE SPECIFIC STYLES ---------- */
+        .section-gap {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-padding {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+     
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 38px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 22px;
+            }
+
+            .section-padding {
+                padding-top: 28px;
+                padding-bottom: 28px;
+            }
+
+            .section-gap {
+                margin-top: 28px;
+                margin-bottom: 28px;
+            }
+        }
+
+        .text-primary-custom {
+            color: var(--primary) !important;
+        }
+
+        .navbar-toggler-custom {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 32px;
+            padding: 0 8px;
+            transition: 0.25s ease;
+        }
+
+        .navbar-toggler-custom:hover,
+        .navbar-toggler-custom:focus {
+            color: var(--primary);
+            transform: rotate(4deg);
+        }
+
+        .navbar-toggler-custom.active {
+            color: var(--primary);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(96, 63, 131, 0.07);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-size: 18px;
+            border: 1px solid rgba(96, 63, 131, 0.08);
+        }
+
+        /* Map Container */
+        .map-container {
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(96, 63, 131, 0.08);
+            height: 400px;
+            transition: 0.3s ease;
+        }
+
+        .map-container:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(96, 63, 131, 0.06);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Contact Info Cards */
+        .contact-info-card {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.06);
+            border-radius: 20px;
+            padding: 24px;
+            transition: 0.3s ease;
+            height: 100%;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .contact-info-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(96, 63, 131, 0.06);
+        }
+
+        .contact-info-card .icon-circle {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 50%;
+            background: rgba(96, 63, 131, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--primary);
+            transition: 0.3s ease;
+        }
+
+        .contact-info-card:hover .icon-circle {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .contact-info-card .info-content h6 {
+            margin-bottom: 2px;
+            color: var(--text-main);
+        }
+
+        .contact-info-card .info-content p {
+            opacity: 0.7;
+            margin-bottom: 0;
+            color: var(--text-main);
+        }
+
+        .contact-info-card .info-content a {
+            color: var(--text-main);
+            transition: 0.2s ease;
+        }
+
+        .contact-info-card .info-content a:hover {
+            color: var(--primary);
+        }
+
+        /* ===== CLEAN FORM STYLES (same as register) ===== */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px !important;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-main);
+            opacity: 0.8;
+        }
+
+        .form-group .form-control {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px !important;
+            /* background: var(--input-bg);W */
+            border: 1.5px solid var(--input-border);
+            border-radius: 15px !important;
+            color: var(--input-text) !important;
+            transition: all 0.3s ease;
+            outline: none;
+            height: 54px;
+        }
+
+        .form-group .form-control::placeholder {
+            color: var(--placeholder-color);
+            opacity: 1;
+        }
+
+        .form-group .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(96, 63, 131, 0.12);
+            background: var(--input-bg);
+        }
+
+        .form-group .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+        .form-group .form-control.is-invalid:focus {
+            box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.15);
+        }
+
+        .form-group textarea.form-control {
+            height: 140px;
+            resize: vertical;
+            padding-top: 16px;
+        }
+
+        .invalid-feedback {
+            font-size: 14px !important;
+            color: #dc3545;
+            margin-top: 4px;
+            padding-left: 4px;
+        }
+
+        .field-hint {
+            font-size: 13px !important;
+            opacity: 0.5;
+            margin-top: 4px;
+            padding-left: 4px;
+            color: var(--text-main);
+        }
+
+        /* Dark mode fixes */
+        :root[data-theme="dark"] .form-group .form-control {
+            background: #1a1a1a;
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff !important;
+        }
+
+        :root[data-theme="dark"] .form-group .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        :root[data-theme="dark"] .form-group .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(96, 63, 131, 0.25);
+        }
+
+        :root[data-theme="dark"] .form-group .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+        :root[data-theme="dark"] .form-group .form-control.is-invalid:focus {
+            box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+        }
+
+        :root[data-theme="dark"] .form-group label {
+            color: #ffffff;
+            opacity: 0.7;
+        }
+
+        .form-card {
+            background: var(--bg-main);
+            border: 1px solid rgba(96, 63, 131, 0.06);
+            border-radius: 28px;
+            padding: 32px;
+        }
+
+        .form-card:hover {
+            border-color: rgba(96, 63, 131, 0.12);
+        }
+
+        .success-message {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ HEADER (sticky) ============ -->
+    <div id="site-header" class="fixed-top">
+        <nav class="navbar navbar-expand-lg py-2">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-compass-fill"></i> Compass<span style="color:var(--primary);">.</span>
+                </a>
+                <button class="navbar-toggler-custom d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
+                        <li class="nav-item">
+                            <button class="theme-toggle ms-2" id="themeToggle" aria-label="Toggle theme">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="container section-padding" style="flex:1;">
+
+        <!-- HERO -->
+        <section class="section-gap text-center">
+            <span class="hero-badge mb-3 d-inline-block"><i class="bi bi-envelope me-1"></i> get in touch</span>
+            <h1 class="fw-bold mb-3" style="color:var(--text-main);">
+                Contact <span style="color:var(--primary);">Us</span>
+            </h1>
+            <p style="font-size:18px; opacity:0.85; max-width:560px; margin:0 auto; color:var(--text-main);">
+                We'd love to hear from you. Reach out for property inquiries, consultations, or any questions.
+            </p>
+        </section>
+
+        <!-- CONTACT INFO CARDS -->
+        <section class="section-gap">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="contact-info-card">
+                        <div class="icon-circle"><i class="bi bi-geo-alt"></i></div>
+                        <div class="info-content">
+                            <h6>Visit Us</h6>
+                            <p>200 Park Avenue, Suite 300<br />New York, NY 10017</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-info-card">
+                        <div class="icon-circle"><i class="bi bi-envelope"></i></div>
+                        <div class="info-content">
+                            <h6>Email Us</h6>
+                            <p><a href="mailto:hello@compass.realestate">hello@compass.realestate</a></p>
+                            <p style="opacity:0.5; font-size:16px !important;">We reply within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-info-card">
+                        <div class="icon-circle"><i class="bi bi-telephone"></i></div>
+                        <div class="info-content">
+                            <h6>Call Us</h6>
+                            <p><a href="tel:+18005551234">+1 (800) 555‑1234</a></p>
+                            <p style="opacity:0.5; font-size:16px !important;">Mon–Fri, 9AM–6PM EST</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAP & FORM -->
+        <section class="section-gap">
+            <div class="row g-4">
+                <!-- Map -->
+                <div class="col-lg-6">
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!2d-73.978!3d40.758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258f0b0d0e0b1%3A0x8f8b8b8b8b8b8b8b!2s200%20Park%20Ave%2C%20New%20York%2C%20NY%2010017!5e0!3m2!1sen!2sus!4v1700000000000"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            title="Compass Real Estate Office Location">
+                        </iframe>
+                    </div>
+                </div>
+                <!-- Contact Form -->
+                <div class="col-lg-6">
+                    <div class="form-card">
+                        <h4 class="mb-3" style="color:var(--text-main);">Send us a message</h4>
+                        <form id="contactForm" novalidate>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" class="form-control" id="firstName"
+                                            placeholder="Enter first name" required />
+                                        <div class="invalid-feedback">Please enter letters only.</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName"
+                                            placeholder="Enter last name" required />
+                                        <div class="invalid-feedback">Please enter letters only.</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" class="form-control" id="email"
+                                            placeholder="Enter email address" required />
+                                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number <span
+                                                style="opacity:0.5; font-weight:400;">(optional)</span></label>
+                                        <input type="text" class="form-control" id="phone"
+                                            placeholder="Enter 10 digit phone number" maxlength="10" />
+                                        <div class="invalid-feedback">Enter 10 digits starting with 6,7,8,or 9.</div>
+                                        <div class="field-hint">Enter 10 digits starting with 6, 7, 8, or 9</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="message">Your Message</label>
+                                        <textarea class="form-control" id="message" placeholder="Enter your message"
+                                            required></textarea>
+                                        <div class="invalid-feedback">Please enter your message.</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn-primary-custom">
+                                        <i class="bi bi-send me-2"></i>Send Message
+                                    </button>
+                                </div>
+                                <div id="formMessage" style="margin-top:8px;"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER (preserved - using side-footer) ============ -->
+    <div id="side-footer"></div>
+
+    <!-- scripts -->
+    <script src="footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="header.js"></script>
+
+    <!-- ====== custom JS ====== -->
+    <script>
+        (function () {
+            // Theme toggle
+            const toggleBtn = document.getElementById('themeToggle');
+            const icon = document.getElementById('themeIcon');
+            const html = document.documentElement;
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    html.setAttribute('data-theme', 'dark');
+                    icon.className = 'bi bi-sun-fill';
+                } else {
+                    html.removeAttribute('data-theme');
+                    icon.className = 'bi bi-moon-fill';
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            const saved = localStorage.getItem('theme') || 'light';
+            setTheme(saved);
+
+            toggleBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const current = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                setTheme(current);
+            });
+
+            // Navbar toggler active
+            const toggler = document.querySelector('.navbar-toggler-custom');
+            const collapse = document.getElementById('navbarContent');
+            if (toggler && collapse) {
+                collapse.addEventListener('show.bs.collapse', function () {
+                    toggler.classList.add('active');
+                    toggler.setAttribute('aria-expanded', 'true');
+                });
+                collapse.addEventListener('hide.bs.collapse', function () {
+                    toggler.classList.remove('active');
+                    toggler.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            // ---------- FORM VALIDATION ----------
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z-]{2,}\.(com|in|org|net)$/i;
+            const namePattern = /^[A-Za-z\s]+$/;
+            const phonePattern = /^[6-9][0-9]{9}$/;
+            const form = document.getElementById('contactForm');
+            const formMessage = document.getElementById('formMessage');
+            const phoneInput = document.getElementById('phone');
+
+            // Real-time validation for name fields (letters only)
+            document.getElementById('firstName').addEventListener('input', function () {
+                if (this.value && !namePattern.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            document.getElementById('lastName').addEventListener('input', function () {
+                if (this.value && !namePattern.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            // Real-time validation for phone (10 digits, starts with 6-9)
+            phoneInput.addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+                if (this.value.length === 10 && !phonePattern.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else if (this.value.length > 0 && this.value.length < 10) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            // Real-time email validation
+            document.getElementById('email').addEventListener('input', function () {
+                if (this.value && !emailPattern.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const inputs = form.querySelectorAll('.form-control');
+                inputs.forEach(input => input.classList.remove('is-invalid'));
+                formMessage.innerHTML = '';
+                formMessage.className = '';
+
+                let isValid = true;
+                let firstInvalid = null;
+
+                const firstName = document.getElementById('firstName');
+                if (!firstName.value.trim() || !namePattern.test(firstName.value.trim())) {
+                    firstName.classList.add('is-invalid');
+                    isValid = false;
+                    if (!firstInvalid) firstInvalid = firstName;
+                }
+
+                const lastName = document.getElementById('lastName');
+                if (!lastName.value.trim() || !namePattern.test(lastName.value.trim())) {
+                    lastName.classList.add('is-invalid');
+                    isValid = false;
+                    if (!firstInvalid) firstInvalid = lastName;
+                }
+
+                const email = document.getElementById('email');
+                if (!email.value.trim() || !emailPattern.test(email.value.trim())) {
+                    email.classList.add('is-invalid');
+                    isValid = false;
+                    if (!firstInvalid) firstInvalid = email;
+                }
+
+                const phone = document.getElementById('phone');
+                if (phone.value.trim() && !phonePattern.test(phone.value.trim())) {
+                    phone.classList.add('is-invalid');
+                    isValid = false;
+                    if (!firstInvalid) firstInvalid = phone;
+                }
+
+                const message = document.getElementById('message');
+                if (!message.value.trim()) {
+                    message.classList.add('is-invalid');
+                    isValid = false;
+                    if (!firstInvalid) firstInvalid = message;
+                }
+
+                if (!isValid) {
+                    if (firstInvalid) firstInvalid.focus();
+                    formMessage.innerHTML = '<span class="error-message">Please fix all highlighted fields.</span>';
+                    return;
+                }
+
+                formMessage.innerHTML = '<span class="success-message">✓ Your message has been sent! We\'ll get back to you within 24 hours.</span>';
+                form.reset();
+                inputs.forEach(input => input.classList.remove('is-invalid'));
+
+                setTimeout(() => {
+                    formMessage.innerHTML = '';
+                }, 5000);
+            });
+
+        })();
+    </script>
+</body>
+
+</html>
